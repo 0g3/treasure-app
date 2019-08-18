@@ -12,6 +12,12 @@ type User struct {
 }
 
 type BatchGetUserResponse struct {
-	User   *User    `json:"user"`
-	Tweets []*Tweet `json:"tweets"`
+	*User     `json:"user"`
+	Tweets    []*Tweet `json:"tweets"`
+	Follows   []*User  `json:"follows" gorm:"many2many:follows;association_jointable_foreignkey:user_id"`
+	Followers []*User  `json:"followers"`
+}
+
+func (resp *BatchGetUserResponse) TableName() string {
+	return "users"
 }

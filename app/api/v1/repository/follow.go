@@ -10,6 +10,8 @@ var Follow = newFollowRepository(db.Conn)
 
 type FollowRepository interface {
 	Create(*model.Follow) error
+	ListByUserID(userID string) ([]*model.Follow, error)
+	ListByFollowedUserID(followedUserID string) ([]*model.Follow, error)
 }
 
 type followRepository struct {
@@ -18,6 +20,18 @@ type followRepository struct {
 
 func (r *followRepository) Create(f *model.Follow) error {
 	return r.db.Create(f).Error
+}
+
+func (r *followRepository) ListByUserID(userID string) ([]*model.Follow, error) {
+	followers := make([]*model.Follow, 0)
+	err := r.db.Where("user_id = ?", userID).Find(&followers).Error
+	return followers, err
+}
+
+func (r *followRepository) ListByFollowedUserID(followedUserID string) ([]*model.Follow, error) {
+	followers := make([]*model.Follow, 0)
+	err := r.db.Where("followed_user_id = ?", followedUserID).Find(&followers).Error
+	return followers, err
 }
 
 func newFollowRepository(db *gorm.DB) FollowRepository {
