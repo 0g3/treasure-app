@@ -19,14 +19,14 @@ func Env() *environment {
 }
 
 type environment struct {
-	DBUser         string `default:"root"`
-	DBPassword     string `default:""`
-	DBAddress      string `default:"127.0.0.1"`
-	DBPort         string `default:"3306"`
-	DBName         string `default:"nico"`
-	ServerPort     string `default:"8080"`
-	TokenSecretKey string `default:"token-secret-key"`
-	MigrationDir   string `default:"migration"`
+	DBUser       string `required:"true"`
+	DBPassword   string `required:"true"`
+	DBAddress    string `required:"true"`
+	DBPort       string `required:"true"`
+	DBName       string `required:"true"`
+	ServerPort   string `required:"true"`
+	KeyFilePath  string `required:"true"`
+	MigrationDir string `required:"true"`
 }
 
 func (e environment) GetPrefixedFieldNames() []string {
