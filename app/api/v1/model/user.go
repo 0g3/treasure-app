@@ -10,3 +10,8 @@ type User struct {
 	CreatedAt   *time.Time `json:"created_at"`
 	UpdatedAt   *time.Time `json:"updated_at"`
 }
+
+type BatchGetUserResponse struct {
+	User   *User    `json:"user"`
+	Tweets []*Tweet `json:"tweets"`
+}

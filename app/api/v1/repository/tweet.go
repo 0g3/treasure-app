@@ -10,6 +10,7 @@ var Tweet = newTweetRepository(db.Conn)
 
 type TweetRepository interface {
 	Create(*model.Tweet) error
+	ListByUserID(userID string) ([]*model.Tweet, error)
 }
 
 type tweetRepository struct {
@@ -18,6 +19,12 @@ type tweetRepository struct {
 
 func (r *tweetRepository) Create(t *model.Tweet) error {
 	return r.db.Create(t).Error
+}
+
+func (r *tweetRepository) ListByUserID(userID string) ([]*model.Tweet, error) {
+	users := make([]*model.Tweet, 0)
+	err := r.db.Where("user_id = ?", userID).Find(&users).Error
+	return users, err
 }
 
 func newTweetRepository(db *gorm.DB) TweetRepository {
